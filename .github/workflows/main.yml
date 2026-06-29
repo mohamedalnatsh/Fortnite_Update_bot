@@ -1,0 +1,37 @@
+name: Fortnite Update Tracker
+
+on:
+  schedule:
+    - cron: '*/15 * * * *' # تشغيل تلقائي مجاني كل 15 دقيقة
+  workflow_dispatch: # يتيح لك تشغيل الفحص يدوياً بضغطة زر للتجربة
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run Tracker Script
+        env:
+          # تمرير المتغيرات المشفرة بأمان من الـ Secrets إلى السكربت أثناء التشغيل
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python tracker.py
+
+      - name: Commit and Push changes
+        # هذه الخطوة لحفظ الحالة الجديدة في ملف last_status.txt لكي لا تتكرر الرسائل كل 15 دقيقة
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add last_status.txt || true
+          git commit -m "Update last known Fortnite version" || true
+          git push || true
