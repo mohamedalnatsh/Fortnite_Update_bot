@@ -47,11 +47,11 @@ def check_fortnite_status():
             # المقارنة البرمجية: إذا اختلف رقم البناء الحالي عن المسجل سابقاً
             if current_version != last_version:
                 msg = (
-                    f"🚨 *تحديث جديد لفورتنايت!* 🚨\n\n"
-                    f"📦 *الإصدار المكتشف:* `{current_version}`\n"
-                    f"⚙️ *الحالة:* السيرفرات بدأت الصيانة أو نزل أبديت جديد الآن للتحميل!"
+                    f"🚨 *New Fortnite update !* 🚨\n\n"
+                    f"📦 *Discovered version:* `{current_version}`\n"
+                    f"⚙️ *Status: *Servers have started maintenance or a new update is now available for download !"
                 )
-                print(f"🔥 تم اكتشاف تحديث جديد: {current_version}")
+                print(f"🔥 A new update has been discovered: {current_version}")
                 send_telegram_message(msg)
                 
                 # حفظ الإصدار الجديد لتجنب إرسال نفس الرسالة في الفحص القادم
